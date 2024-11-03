@@ -1,8 +1,11 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const basketController = require("../controllers/basketController");
+const basketController = require('../controllers/basketController');
 
-router.post("/", basketController.createEmptyBasket);
+router.post('/create', basketController.createBasket);
+router.get('/', basketController.getBasket);
+router.post('/addItem', basketController.addItem);
+router.delete('/removeItem', basketController.removeItem);
 
 
 
