@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Promotion</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input {
+            margin-bottom: 15px;
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Add Promotion</h1>
+<form id="promotionForm">
+    <label for="code">Promotion Code:</label>
+    <input type="text" id="code" name="code" required>
+
+    <label for="discountValue">Discount Value:</label>
+    <input type="number" id="discountValue" name="discountValue" required>
+
+    <label for="discountType">Discount Type:</label>
+    <input type="text" id="discountType" name="discountType" required>
+
+    <label for="isConjunction">Is Conjunction:</label>
+    <input type="checkbox" id="isConjunction" name="isConjunction">
+
+    <button type="submit">Add Promotion</button>
+</form>
+
+<script>
+    const form = document.getElementById('promotionForm');
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault(); // Sprečava reload stranice
+
+        const code = document.getElementById('code').value;
+        const discountValue = document.getElementById('discountValue').value;
+        const discountType = document.getElementById('discountType').value;
+        const isConjunction = document.getElementById('isConjunction').checked;
+
+        const promotionData = {
+            code,
+            discount_value: discountValue,
+            discount_type: discountType,
+            is_conjunction: isConjunction,
+        };
+
+        try {
+            const response = await fetch('http://localhost:5001/api/promotions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(promotionData),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to add promotion');
+            }
+
+            const result = await response.json();
+            alert(`Promotion added: ${JSON.stringify(result)}`);
+            form.reset(); // Resetuj formu nakon uspešnog unosa
+        } catch (error) {
+            alert(error.message);
+        }
+    });
+</script>
+
+</body>
+</html>
