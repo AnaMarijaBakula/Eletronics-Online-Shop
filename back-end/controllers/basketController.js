@@ -1,7 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const Basket = require('../models/basketModel');
 const Item = require('../models/itemsModel');
-const Items = require("../models/itemsModel");
+
 
 
 //POST method to create a basket
@@ -34,16 +34,16 @@ const addItem = asyncHandler(async (req, res) => {
         basket = await Basket.findById(req.session.basketId);
     }
 
-    if (!basket) {
-        createBasket();
-    }
-
+    const itemPriceAdd = item.price;
     const itemInBasket = basket.items.findIndex(item => item.item == itemId);
     if (itemInBasket === -1) {
         basket.items.push({ item: itemId, quantity : 1 });
+        basket.total += itemPriceAdd;
     } else {
         basket.items[itemInBasket].quantity += 1;
+        basket.total += itemPriceAdd;
     }
+
 
     await basket.save();
     res.json(basket);
@@ -55,11 +55,13 @@ const addItem = asyncHandler(async (req, res) => {
 const removeItem = asyncHandler(async (req, res) => {
     const { itemId } = req.body;
 
+    const item = await Item.findById(itemId);
     const basket = await Basket.findById(req.session.basketId);
     if (!basket) {
         return res.status(404).json({ message: 'Basket not found' });
     }
 
+    const itemPriceRemove = item.price;2
     const itemInBasket = basket.items.findIndex(item => item.item == itemId);
     if (itemInBasket === -1) {
         return res.status(404).json({ message: 'Item not found in basket' });
@@ -67,13 +69,14 @@ const removeItem = asyncHandler(async (req, res) => {
 
     if (basket.items[itemInBasket].quantity > 1) {
         basket.items[itemInBasket].quantity -= 1;
+        basket.total -= itemPriceRemove;
     } else {
         basket.items.splice(itemInBasket, 1);
+        basket.total -= itemPriceRemove;
     }
 
     await basket.save(); // Spremi promjene u bazu
     res.json({ message: 'Item quantity updated or removed from basket', basket });
 });
-
 
 module.exports = {createBasket , getBasket, addItem, removeItem};
