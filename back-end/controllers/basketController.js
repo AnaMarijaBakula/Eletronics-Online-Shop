@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const Basket = require('../models/basketModel');
 const Item = require('../models/itemsModel');
+const Promotions = require('../models/promotionsModel');
 
 
 
@@ -74,5 +75,41 @@ const removeItem = asyncHandler(async (req, res) => {
     res.json({ message: 'Item quantity updated or removed from basket', basket });
 });
 
+//POST promotions to basket
+//adress : /api/basket/:id/promotions/:id
+const addPromotionToBasket = asyncHandler(async (req, res) => {
+    const { basketId } = req.params;
+    const { code } = req.body;
 
-module.exports = {getBasket, addItem, removeItem};
+    const basket = await Basket.findById(basketId);
+    console.log('Basket ID:', req.session.basketId);
+    console.log('basket before: ',basket.total)
+
+    const promotion = await Promotions.findOne({ code: code });
+    console.log(promotion);
+
+    if (!promotion) {
+        res.status(404);
+        throw new Error('Promotion not found');
+    }
+    if(basket.promotions.length > 0 && promotion.is_conjunction === false){
+        return res.status(400).json({ message: 'Another promotion already applied to the basket' });
+    }
+    if (basket.promotions.includes(promotion._id)) {
+        return res.status(400).json({ message: 'Promotion already applied to the basket' });
+    }else{
+        if (promotion.discount_type === "fixed"){
+            basket.total -= promotion.discount_value;
+        }else{
+            basket.total *= 1-(promotion.discount_value/100);
+        }
+    }
+
+    basket.promotions.push(promotion._id);
+    await basket.save();
+
+    res.status(200).json({ message: 'Promotion added to basket', basket });
+});
+
+
+module.exports = {getBasket, addItem, removeItem , addPromotionToBasket};

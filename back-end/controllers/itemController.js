@@ -68,28 +68,7 @@ const updateItem = asyncHandler(async (req, res) => {
     res.status(200).json(updatedItem);
 });
 
-//POST promotions to item
-//adress : /api/items/:id/promotions/:id
-const addPromotionToItem = asyncHandler(async (req, res) => {
-    const { itemId, promotionId } = req.params;
-
-    const item = await Items.findById(itemId);
-    if (!item) {
-        res.status(404);
-        throw new Error('Item not found');
-    }
-
-    const promotion = await Promotions.findById(promotionId);
-    if (!promotion) {
-        res.status(404);
-        throw new Error('Promotion not found');
-    }
-
-    item.promotions.push(promotionId);
-    await item.save();
-
-    res.status(200).json({ message: 'Promotion added to item', item });
-});
 
 
-module.exports = { getItems, createItem , getOneItem, deleteItem, updateItem, addPromotionToItem};
+
+module.exports = { getItems, createItem , getOneItem, deleteItem, updateItem};

@@ -22,8 +22,8 @@ const basketSchema = new mongoose.Schema({
     ],
     promotions: [
         {
-            type: mongoose.Schema.Types.ObjectId,  // References to the promotion model
-            ref: 'Promotion' // Name of the model
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Promotion'
         }
     ],
     total: {

@@ -17,10 +17,6 @@ const itemSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    promotions: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Promotions' // Referenca na model 'Promotions'
-    }]
 },
     {timestamps: true }
 );

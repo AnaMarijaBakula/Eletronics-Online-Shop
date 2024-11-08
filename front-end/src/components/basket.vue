@@ -18,6 +18,7 @@
             </v-card-actions>
           </v-card>
         </v-col>
+        <v-text-field label="Napišite promocijski kod"></v-text-field>
       </v-row>
       <p class="text-h6 mt-4">Ukupno: {{ basket.total }} kn</p>
     </div>
@@ -72,6 +73,9 @@ export default {
       } catch (error) {
         console.error('Greška prilikom uklanjanja stavke iz košarice:', error.response ? error.response.data : error.message);
       }
+    },
+    async addPromotion(){
+
     }
   },
 
