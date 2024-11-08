@@ -3,8 +3,11 @@
     <v-app-bar extended>
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
       <v-app-bar-title>Application</v-app-bar-title>
+      <v-card-subtitle>Ovu stranicu su pravile ana-marija i sara </v-card-subtitle>
       <v-spacer></v-spacer>
-      <v-btn icon="mdi-dots-vertical"></v-btn>
+      <v-btn icon @click="$router.push('/basket')">
+        <v-icon>mdi-cart</v-icon>
+      </v-btn>
     </v-app-bar>
 
     <v-main>
@@ -16,10 +19,12 @@
             cols="4"
           >
             <v-card>
-              <v-card-subtitle>{{item.category}}</v-card-subtitle>
+              <v-card-subtitle>{{ item.category }}</v-card-subtitle>
               <v-img :src="item.image" height="200"></v-img>
               <v-card-title>{{ item.name }}</v-card-title>
               <v-card-subtitle>{{ item.price }}$</v-card-subtitle>
+              <v-btn @click="addToCart(item)">Dodaj u košaricu</v-btn>
+
             </v-card>
           </v-col>
         </v-row>
@@ -34,6 +39,7 @@ import axios from 'axios';
 
 const items = ref([]);
 
+// Funkcija za dohvat stavki
 const fetchItems = async () => {
   try {
     const response = await axios.get('http://localhost:5001/api/items');
@@ -43,13 +49,26 @@ const fetchItems = async () => {
   }
 };
 
+// Funkcija za dodavanje proizvoda u košaricu
+const addToCart = async (item) => {
+  try {
+    const response = await axios.post('http://localhost:5001/api/basket/addItem', {
+      itemId: item._id,
+    });
+    console.log('Item added to basket:', response.data);
+  } catch (error) {
+    console.error('Error adding item to basket: ', error);
+  }
+};
 
 onMounted(() => {
   fetchItems();
 });
+
+axios.defaults.withCredentials = true;
+
 </script>
 
-
 <style scoped lang="sass">
-
+/* Vaši stilovi ovdje */
 </style>

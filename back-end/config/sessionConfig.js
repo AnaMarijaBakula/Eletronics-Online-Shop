@@ -1,17 +1,24 @@
-const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
-const sessionStore = MongoStore.create({  // Create a new store
+
+const sessionStore = new MongoStore({
     mongoUrl: process.env.CONNECTION_STRING,
     collectionName: 'sessions',
 });
 
+
 const sessionConfig = {
-    secret: 'someSecret',  // key for signing the cookie
+    secret: 'someSecret',
     resave: false,
-    saveUninitialized: true,  // Save new sessions
-    store: sessionStore,  // Store sessions in the database
-    cookie: { secure: false , maxAge: 1000 * 60 * 60 * 24 },  // 24 hours
+    saveUninitialized: true,
+    store: sessionStore,
+    cookie: {
+        secure: false,
+        maxAge: 1000 * 60 * 60 * 24,
+    },
 };
+
+
+
 
 module.exports = sessionConfig;
