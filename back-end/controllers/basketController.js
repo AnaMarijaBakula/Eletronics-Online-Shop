@@ -57,7 +57,7 @@ const removeItem = asyncHandler(async (req, res) => {
     }
 
     const itemPriceRemove = item.price;
-    const itemInBasket = basket.items.findIndex(item => item.item == itemId);; // Provjeri da li je stavka u košarici
+    const itemInBasket = basket.items.findIndex(item => item.item == itemId);
     if (itemInBasket === -1) {
         return res.status(404).json({ message: 'Item not found in basket' });
     }

@@ -12,7 +12,7 @@ const port = process.env.PORT || 5001;
 
 
 app.use(cors({
-    origin: 'http://localhost:3004',
+    origin: 'http://localhost:3000',
     credentials: true
 }));
 
@@ -23,6 +23,7 @@ app.use(basketCreate);
 app.use(express.json());
 //Rutes
 const userRoute = require('./routes/userRoute');
+const adminRoute = require('./routes/adminRoute');
 const itemsRoute = require('./routes/itemsRoute');
 const basketRoute = require('./routes/basketRoute');
 const checkoutRoute = require('./routes/checkoutRoute');
@@ -30,6 +31,7 @@ const promotionsRoute = require('./routes/promotionsRoute');
 
 
 app.use('/api/users', userRoute);
+app.use('/api/admin', adminRoute);
 app.use('/api/items', itemsRoute);
 app.use('/api/basket', basketRoute);
 app.use('/api/checkout', checkoutRoute);

@@ -4,7 +4,7 @@
     <!-- Provjeravamo je li dohvaćen `basket` i sadrži li stavke -->
     <div v-if="basket && basket.items && basket.items.length">
       <v-row dense>
-        <v-col cols="12" v-for="(itemData, index) in basket.items" :key="itemData._id">
+        <v-col cols="12" v-for="(itemData, index) in basket.items " :key="itemData._id ">
           <v-card class="mx-auto" max-width="400">
             <v-card-title>{{ itemData.item.name }}</v-card-title>
             <v-card-subtitle>Kategorija: {{ itemData.item.category }}</v-card-subtitle>
@@ -18,7 +18,15 @@
             </v-card-actions>
           </v-card>
         </v-col>
-        <v-text-field label="Napišite promocijski kod"></v-text-field>
+        <v-form @submit.prevent="applyPromotion">
+          <v-text-field
+            v-model="promotionCode"
+            label="Napišite promocijski kod"
+            outlined
+          ></v-text-field>
+
+          <v-btn color="primary" @click="applyPromotion">Primeni promociju</v-btn>
+        </v-form>
       </v-row>
       <p class="text-h6 mt-4">Ukupno: {{ basket.total }} kn</p>
     </div>
@@ -34,7 +42,8 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      basket: [] // Postavili smo `basket` kao niz za kompatibilnost s dobivenom strukturom podataka
+      basket: [], // Postavili smo `basket` kao niz za kompatibilnost s dobivenom strukturom podataka
+      promotionCode: '',
     };
   },
   methods: {
@@ -74,9 +83,24 @@ export default {
         console.error('Greška prilikom uklanjanja stavke iz košarice:', error.response ? error.response.data : error.message);
       }
     },
-    async addPromotion(){
 
-    }
+    async applyPromotion() {
+      if (!this.basket || !this.basket._id) {
+        return alert('Košarica nije učitana ili nema ID');
+      }
+
+      try {
+        const response = await axios.post(`http://localhost:5001/api/basket/${this.basket._id}/promotion`, {
+          code: this.promotionCode, // Šalje kod kao deo tela zahteva
+        }, { withCredentials: true });
+
+        console.log(response.data);
+        this.fetchBasketItems(); // Ponovno dohvatamo korpu nakon ažuriranja
+      } catch (error) {
+        console.error('Greška prilikom primene promocije:', error);
+        alert(error.response?.data?.message || 'Neuspelo primenjivanje promocije');
+      }
+    },
   },
 
   mounted() {
