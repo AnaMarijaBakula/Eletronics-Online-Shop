@@ -1,111 +1,139 @@
 <template>
-  <div>
-    <h1>Košarica</h1>
-    <!-- Provjeravamo je li dohvaćen `basket` i sadrži li stavke -->
-    <div v-if="basket && basket.items && basket.items.length">
-      <v-row dense>
-        <v-col cols="12" v-for="(itemData, index) in basket.items " :key="itemData._id ">
-          <v-card class="mx-auto" max-width="400">
-            <v-card-title>{{ itemData.item.name }}</v-card-title>
-            <v-card-subtitle>Kategorija: {{ itemData.item.category }}</v-card-subtitle>
-            <v-card-text>
-              Cijena: {{ itemData.item.price }} kn <br>
-              Količina: {{ itemData.quantity }}
-            </v-card-text>
-            <v-card-actions>
-              <v-btn text color="primary" @click="addItem(itemData.item)">+</v-btn>
-              <v-btn text color="error" @click="removeItem(itemData.item)">-</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-        <v-form @submit.prevent="applyPromotion">
-          <v-text-field
-            v-model="promotionCode"
-            label="Napišite promocijski kod"
-            outlined
-          ></v-text-field>
+  <v-container class="cart-container" fluid>
+    <v-row justify="center" align="center">
+      <v-col cols="12" sm="8" md="6">
+        <v-card class="pa-5 cart-card" elevation="10">
+          <h2 class="text-center mb-6 cart-title">Vaša Košarica</h2>
 
-          <v-btn color="primary" @click="applyPromotion">Primeni promociju</v-btn>
-        </v-form>
-      </v-row>
-      <p class="text-h6 mt-4">Ukupno: {{ basket.total }} kn</p>
-    </div>
-    <div v-else>
-      <p>Košarica je prazna.</p>
-    </div>
-  </div>
+          <!-- Artikli u košarici -->
+          <div v-if="basketStore.items.length > 0">
+            <v-card
+              v-for="item in basketStore.items"
+              :key="item.id"
+              class="mb-4 cart-item-card"
+            >
+              <v-row align="center">
+                <v-col cols="4">
+                  <v-img
+                    :src="item.image"
+                    alt="item.name"
+                    class="rounded"
+                    aspect-ratio="1"
+                  />
+                </v-col>
+                <v-col cols="5">
+                  <h3 class="text-h6 font-weight-bold mb-2">{{ item.name }}</h3>
+                  <p class="text-grey-600">{{ item.price }} kn</p>
+                </v-col>
+                <v-col cols="3" class="text-center">
+                  <v-btn icon small color="primary" @click="basketStore.decreaseQuantity(item._id)">
+                    <v-icon>mdi-minus-circle</v-icon>
+                  </v-btn>
+                  <span class="quantity">{{ item.quantity }}</span>
+                  <v-btn icon small color="primary" @click="basketStore.increaseQuantity(item._id)">
+                    <v-icon>mdi-plus-circle</v-icon>
+                  </v-btn>
+                  <v-btn icon small color="red" @click="basketStore.removeItem(item._id)">
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-card>
+          </div>
+
+          <!-- Ako je košarica prazna -->
+          <div v-else class="text-center mt-4">
+            <p class="text-grey-500">Košarica je prazna.</p>
+          </div>
+
+          <!-- Promotivni kod -->
+          <v-row align="center" justify="space-between" class="mt-6">
+            <v-col cols="8">
+              <v-text-field
+                v-model="promoCode"
+                label="Promotivni kod"
+                outlined
+                dense
+                color="primary"
+              />
+            </v-col>
+            <v-col cols="4">
+              <v-btn color="primary" block @click="applyPromoCode">
+                Primijeni
+              </v-btn>
+            </v-col>
+          </v-row>
+
+          <!-- Ukupni iznos -->
+          <div class="text-center mt-6">
+            <h3 class="total-price">Ukupno: {{ basketStore.totalPrice }} $</h3>
+          </div>
+
+          <!-- Gumb za nastavak kupnje -->
+          <div class="text-center mt-4">
+            <v-btn color="success" large block class="checkout-btn" @click="$router.push('/checkout')">
+              Nastavi na plaćanje
+            </v-btn>
+          </div>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
-<script>
-import axios from 'axios';
+<script setup >
+import { useBasketStore } from '@/stores/basket';
 
-export default {
-  data() {
-    return {
-      basket: [], // Postavili smo `basket` kao niz za kompatibilnost s dobivenom strukturom podataka
-      promotionCode: '',
-    };
-  },
-  methods: {
-    async fetchBasketItems() {
-      try {
-        const response = await axios.get('http://localhost:5001/api/basket',{
-          withCredentials: true
-        });
-        console.log('Dohvaceni podaci: ',response.data);
-
-        this.basket = response.data; // Spremamo podatke iz odgovora u `basket`
-      } catch (error) {
-        console.error("Greška prilikom dohvaćanja košarice:", error);
-      }
-    },
-
-    async addItem(item) {
-      try {
-        const response = await axios.post('http://localhost:5001/api/basket/addItem', {
-          itemId: item._id
-        },{withCredentials: true});
-        console.log('Stavka dodana u košaricu:', response.data);
-        this.fetchBasketItems();
-      } catch (error) {
-        console.error('Greška prilikom dodavanja stavke u košaricu:', error);
-      }
-    },
-
-    async removeItem(item) {
-      try {
-        const response = await axios.delete(`http://localhost:5001/api/basket/${item._id}`, {
-          withCredentials: true
-        });
-        console.log('Stavka uklonjena iz košarice:', response.data);
-        this.fetchBasketItems();
-      } catch (error) {
-        console.error('Greška prilikom uklanjanja stavke iz košarice:', error.response ? error.response.data : error.message);
-      }
-    },
-
-    async applyPromotion() {
-      if (!this.basket || !this.basket._id) {
-        return alert('Košarica nije učitana ili nema ID');
-      }
-
-      try {
-        const response = await axios.post(`http://localhost:5001/api/basket/${this.basket._id}/promotion`, {
-          code: this.promotionCode, // Šalje kod kao deo tela zahteva
-        }, { withCredentials: true });
-
-        console.log(response.data);
-        this.fetchBasketItems(); // Ponovno dohvatamo korpu nakon ažuriranja
-      } catch (error) {
-        console.error('Greška prilikom primene promocije:', error);
-        alert(error.response?.data?.message || 'Neuspelo primenjivanje promocije');
-      }
-    },
-  },
-
-  mounted() {
-    this.fetchBasketItems();
-  },
-};
-
+const basketStore = useBasketStore();
 </script>
+
+<style scoped>
+.cart-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+}
+
+.cart-card {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.cart-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.cart-item-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 12px;
+  background-color: #f9f9f9;
+}
+
+.cart-item-card h3 {
+  color: #555;
+}
+
+.quantity {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0 8px;
+}
+
+.total-price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.checkout-btn {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+</style>

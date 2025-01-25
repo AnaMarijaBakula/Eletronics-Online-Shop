@@ -23,7 +23,7 @@
               <v-img :src="item.image" height="200"></v-img>
               <v-card-title>{{ item.name }}</v-card-title>
               <v-card-subtitle>{{ item.price }}$</v-card-subtitle>
-              <v-btn @click="addToCart(item)">Dodaj u košaricu</v-btn>
+              <v-btn @click="basketStore.addItem(item)">Dodaj u košaricu</v-btn>
 
             </v-card>
           </v-col>
@@ -36,6 +36,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { useBasketStore } from '@/stores/basket';
+
+//Pinia store i ispis dodanih itema u konzoli
+const basketStore = useBasketStore();
+console.log(basketStore.items);
 
 const items = ref([]);
 
@@ -49,17 +54,6 @@ const fetchItems = async () => {
   }
 };
 
-// Funkcija za dodavanje proizvoda u košaricu
-const addToCart = async (item) => {
-  try {
-    const response = await axios.post('http://localhost:5001/api/basket/addItem', {
-      itemId: item._id,
-    });
-    console.log('Item added to basket:', response.data);
-  } catch (error) {
-    console.error('Error adding item to basket: ', error);
-  }
-};
 
 onMounted(() => {
   fetchItems();
