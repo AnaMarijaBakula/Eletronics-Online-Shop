@@ -9,14 +9,17 @@
           </v-card-title>
           <v-divider></v-divider>
           <v-card-subtitle>
+            <!--Petlja prolazi kroz sve stavke i prikazuje jednu po jednu-->
             <v-row v-for="item in basketStore.items" :key="item._id" class="mb-2">
               <v-col cols="6">
                 <v-img :src="item.image" max-width="80" />
                 <span>{{ item.name }}</span>
               </v-col>
+              <!--Količina i cijena po komadu-->
               <v-col cols="3">
                 <span>{{ item.quantity }} x {{ item.price.toFixed(2) }} $</span>
               </v-col>
+              <!--Ukupna cijena proizvoda-->
               <v-col cols="3" class="text-right">
                 <span>{{ (item.quantity * item.price).toFixed(2) }} $</span>
               </v-col>
@@ -46,6 +49,7 @@
           </v-card-title>
           <v-row>
             <v-col>
+              <!-- bascketStore za pristuo cijene košare,zaokružena cijena -->
               <span>Ukupna cijena:</span>
               <span>{{ basketStore.totalPrice.toFixed(2) }} $</span>
             </v-col>
@@ -75,7 +79,7 @@ const user = ref({
   address: '',
   email: ''
 });
-
+//placeOrder se prikazuje kada nisu unesni svi podaci
 const placeOrder = async () => {
   if (!user.value.name || !user.value.address || !user.value.email) {
     alert("Molimo unesite sve podatke.");
@@ -97,11 +101,12 @@ const placeOrder = async () => {
   console.log(orderData)
 
   try {
+    // Pokušava poslati POST zahtjev na server kako bi pohranio podatke o narudžbi
     const response = await axios.post('http://localhost:5001/api/order', orderData);
     console.log('Narudžba uspješno poslana:', response.data);
 
     basketStore.clearBasket(); // Očisti košaricu nakon uspješne narudžbe
-    router.push('/checkoutsuccess')
+    router.push('/checkoutsuccess')//Ako je uspješno preusmjeri se na potvrdu stranicu
   } catch (error) {
     console.error('Greška prilikom slanja narudžbe:', error);
     alert("Došlo je do pogreške prilikom narudžbe.");

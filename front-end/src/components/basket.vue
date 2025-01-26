@@ -42,8 +42,11 @@
           </div>
 
           <!-- Ako je košarica prazna -->
-          <div v-else class="text-center mt-4">
-            <p class="text-grey-500">Košarica je prazna.</p>
+          <div v-if="basketStore.items.length === 0" class="text-center mt-4">
+            <v-card class="pa-5 text-grey-500 text-h6" outlined>
+              <v-icon size="40" color="grey">mdi-cart-outline</v-icon>
+              <p>Vaša košarica je prazna.</p>
+            </v-card>
           </div>
 
           <!-- Promotivni kod -->

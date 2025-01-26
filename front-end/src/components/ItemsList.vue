@@ -35,26 +35,26 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
-import { useBasketStore } from '@/stores/basket';
+import axios from 'axios'; //HTTP zahtjevi
+import { useBasketStore } from '@/stores/basket';//pinia
 
-//Pinia store i ispis dodanih itema u konzoli
+//Pinia store i ispis trenutne proizvode u košarici
 const basketStore = useBasketStore();
 console.log(basketStore.items);
 
-const items = ref([]);
+const items = ref([]);// dohvačeni proizvod iz back
 
-// Funkcija za dohvat stavki
+// Funkcija za dohvačanje iz back
 const fetchItems = async () => {
   try {
     const response = await axios.get('http://localhost:5001/api/items');
-    items.value = response.data.items;
+    items.value = response.data.items;// Ako je uspjesno sprema se u items.value
   } catch (error) {
     console.error('Error fetching data: ', error);
   }
 };
 
-
+//prikazivanje proizvoda
 onMounted(() => {
   fetchItems();
 });
