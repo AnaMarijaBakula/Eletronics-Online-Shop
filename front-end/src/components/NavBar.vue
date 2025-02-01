@@ -1,34 +1,31 @@
 <template>
-  <v-app-bar extended>
-    <v-app-bar-title>Electronic Shop</v-app-bar-title>
-    <v-spacer></v-spacer>
+    <v-app-bar extended>
+      <v-app-bar-title>Electronic Shop</v-app-bar-title>
+      <v-spacer></v-spacer>
+      <v-btn  @click="$router.push('/')">Početna</v-btn>
+      <v-btn  @click="$router.push('/oNama')">O nama</v-btn>
+      <v-btn  @click="$router.push('/')">Proizvodi</v-btn>
+      <v-btn  @click="$router.push('/vijesti')">Vijesti</v-btn>
+      
+      <!-- Hamburger meni za mobilne uređaje -->
+      <v-menu v-if="isMobile" offset-y>
+        <template v-slot:activator="{ props }">
+          <v-btn icon v-bind="props">
+            <v-icon>mdi-menu</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item @click="$router.push('/')">Početna</v-list-item>
+          <v-list-item @click="$router.push('/oNama')">O nama</v-list-item>
+          <v-list-item @click="$router.push('/')">Proizvodi</v-list-item>
+          <v-list-item @click="$router.push('/vijesti')">Vijesti</v-list-item>
+        </v-list>
+      </v-menu>
 
-    <!-- Prikaz za desktop -->
-    <v-btn v-if="!isMobile" @click="$router.push('/')">Početna</v-btn>
-    <v-btn v-if="!isMobile" @click="$router.push('/about')">O nama</v-btn>
-    <v-btn v-if="!isMobile" @click="$router.push('/')">Proizvodi</v-btn>
-    <v-btn v-if="!isMobile" @click="$router.push('/contact')">Kontakt</v-btn>
-
-    <!-- Hamburger meni za mobilne uređaje -->
-    <v-menu v-if="isMobile" offset-y>
-      <template v-slot:activator="{ props }">
-        <v-btn icon v-bind="props">
-          <v-icon>mdi-menu</v-icon>
-        </v-btn>
-      </template>
-      <v-list>
-        <v-list-item @click="$router.push('/')">Početna</v-list-item>
-        <v-list-item @click="$router.push('/about')">O nama</v-list-item>
-        <v-list-item @click="$router.push('/')">Proizvodi</v-list-item>
-        <v-list-item @click="$router.push('/contact')">Kontakt</v-list-item>
-      </v-list>
-    </v-menu>
-
-    <!-- Ikona košarice ostaje van menija -->
-    <v-btn icon @click="$router.push('/basket')">
-      <v-icon>mdi-cart</v-icon>
-    </v-btn>
-  </v-app-bar>
+      <v-btn icon @click="$router.push('/basket')">
+        <v-icon>mdi-cart</v-icon>
+      </v-btn>
+    </v-app-bar>
 </template>
 
 <script setup>
