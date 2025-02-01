@@ -2,8 +2,8 @@
   <v-app id="inspire">
     <v-app-bar extended>
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
-      <v-app-bar-title>Application</v-app-bar-title>
-      <v-card-subtitle>Ovu stranicu su pravile ana-marija i sara </v-card-subtitle>
+      <v-app-bar-title>Electronic Shop</v-app-bar-title>
+      <v-card-subtitle class="text-center">Najbolja elektronika po pristupačnim cijenama - pronađite svoje idealne proizvode uz samo nekoliko klikova!</v-card-subtitle>
       <v-spacer></v-spacer>
       <v-btn icon @click="$router.push('/basket')">
         <v-icon>mdi-cart</v-icon>
