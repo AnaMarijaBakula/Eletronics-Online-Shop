@@ -1,31 +1,22 @@
 <template>
   <v-container class="cart-container" fluid>
     <v-row justify="center" align="center">
-      <v-col cols="12" sm="8" md="6">
+      <v-col cols="12" sm="10" md="8" lg="6">
         <v-card class="pa-5 cart-card" elevation="10">
           <h2 class="text-center mb-6 cart-title">Vaša Košarica</h2>
 
           <!-- Artikli u košarici -->
           <div v-if="basketStore.items.length > 0">
-            <v-card
-              v-for="item in basketStore.items"
-              :key="item.id"
-              class="mb-4 cart-item-card"
-            >
-              <v-row align="center">
-                <v-col cols="4">
-                  <v-img
-                    :src="item.image"
-                    alt="item.name"
-                    class="rounded"
-                    aspect-ratio="1"
-                  />
+            <v-card v-for="item in basketStore.items" :key="item.id" class="mb-4 cart-item-card">
+              <v-row align="center" class="cart-item">
+                <v-col cols="12" sm="4" class="text-center">
+                  <v-img :src="item.image" alt="item.name" class="rounded item-image" aspect-ratio="1" />
                 </v-col>
-                <v-col cols="5">
+                <v-col cols="12" sm="5" class="text-center text-sm-left">
                   <h3 class="text-h6 font-weight-bold mb-2">{{ item.name }}</h3>
                   <p class="text-grey-600">{{ item.price }} $</p>
                 </v-col>
-                <v-col cols="3" class="text-center">
+                <v-col cols="12" sm="3" class="text-center">
                   <div class="quantity-controls">
                     <v-btn icon small class="quantity-btn minus" @click="basketStore.decreaseQuantity(item._id)">
                       <v-icon>mdi-minus-circle</v-icon>
@@ -44,30 +35,12 @@
           </div>
 
           <!-- Ako je košarica prazna -->
-          <div v-if="basketStore.items.length === 0" class="text-center mt-4 ">
+          <div v-if="basketStore.items.length === 0" class="text-center mt-4">
             <v-card class="pa-5 text-white-500 text-h6" outlined>
               <v-icon size="40" color="grey">mdi-cart-outline</v-icon>
               <p>Vaša košarica je prazna.</p>
             </v-card>
           </div>
-
-          <!-- Promotivni kod -->
-          <v-row align="center" justify="space-between" class="mt-6">
-            <v-col cols="8">
-              <v-text-field
-                v-model="promoCode"
-                label="Promotivni kod"
-                outlined
-                dense
-                color="primary"
-              />
-            </v-col>
-            <v-col cols="4">
-              <v-btn color="primary" block @click="applyPromoCode">
-                Primijeni
-              </v-btn>
-            </v-col>
-          </v-row>
 
           <!-- Ukupni iznos -->
           <div class="text-center mt-6">
@@ -86,10 +59,9 @@
   </v-container>
 </template>
 
-<script setup >
-import { useBasketStore } from '@/stores/basket'
-
-const basketStore = useBasketStore()
+<script setup>
+import { useBasketStore } from '@/stores/basket';
+const basketStore = useBasketStore();
 </script>
 
 <style scoped lang="sass">
@@ -100,26 +72,53 @@ const basketStore = useBasketStore()
   background-color: $style-color
   margin-bottom: 20px
 
+.cart-item
+  display: flex
+  align-items: center
+  flex-wrap: wrap
+
+.item-image
+  max-width: 100px
+  max-height: 100px
+  margin: auto
 
 .quantity-controls
   display: flex
   align-items: center
-  gap: 2px
+  justify-content: center
+  gap: 8px
 
 .quantity-btn
-  background-color: $text-color
-  color: $subtle-text
+  width: 32px
+  height: 32px
+  border: 1px solid white
+  background-color: transparent
+  color: white
   border-radius: 4px
+  transition: all 0.3s ease
 
-.quantity-btn.plus:hover
-  background-color: $secondary
-
-.quantity-btn.minus:hover
+.quantity-btn.plus:hover, .quantity-btn.minus:hover
   background-color: $secondary
 
 .delete-btn
-  background-color: $primary
   color: white
+  margin-left: 8px
+  transition: all 0.3s ease
+
+.delete-btn:hover
+  color: red
+
+.quantity
+  width: 40px
+  height: 32px
+  display: flex
+  align-items: center
+  justify-content: center
+  border: 1px solid white
+  background-color: transparent
+  color: white
+  font-size: 16px
+  font-weight: bold
   border-radius: 4px
 
 .checkout-btn
@@ -128,7 +127,14 @@ const basketStore = useBasketStore()
   background-color: $secondary
   color: $text
 
-.v-btn.primary
-  background-color: $primary
-  color: white
+@media (max-width: 600px)
+  .quantity-controls
+    gap: 4px
+  .quantity-btn
+    width: 28px
+    height: 28px
+  .quantity
+    width: 32px
+    height: 28px
+    font-size: 14px
 </style>
