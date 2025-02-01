@@ -2,8 +2,8 @@
   <v-app id="inspire">
     <v-app-bar extended>
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
-      <v-app-bar-title>Application</v-app-bar-title>
-      <v-card-subtitle>Ovu stranicu su pravile ana-marija i sara </v-card-subtitle>
+      <v-app-bar-title>Electronic Shop</v-app-bar-title>
+      <v-card-subtitle class="text-center">Najbolja elektronika po pristupačnim cijenama - pronađite svoje idealne proizvode uz samo nekoliko klikova!</v-card-subtitle>
       <v-spacer></v-spacer>
       <v-btn icon @click="$router.push('/basket')">
         <v-icon>mdi-cart</v-icon>
@@ -16,10 +16,10 @@
           <v-col
             v-for="item in items"
             :key="item._id"
-            cols="4"
+            cols="12"
+            :md="4"
           >
             <v-card>
-              <v-card-subtitle>{{ item.category }}</v-card-subtitle>
               <v-img :src="item.image" height="200"></v-img>
               <v-card-title>{{ item.name }}</v-card-title>
               <v-card-subtitle>{{ item.price }}$</v-card-subtitle>
@@ -63,6 +63,31 @@ axios.defaults.withCredentials = true;
 
 </script>
 
+
 <style scoped lang="sass">
-/* Vaši stilovi ovdje */
+@import '@/styles/settings'
+
+.v-card
+  flex-direction: column
+  height: 100%
+  padding: 16px
+
+.v-card-subtitle
+  text-align: right // Cijena-desno
+  font-weight: bold
+  color: $text
+
+.v-btn
+  font-weight: bold
+  color: $text
+  background-color: $style-color
+  width: 100% // proširenje gumba
+  text-transform: none
+  margin-top: 16px
+
+.v-btn:hover
+  background-color: $secondary
+
 </style>
+
+
