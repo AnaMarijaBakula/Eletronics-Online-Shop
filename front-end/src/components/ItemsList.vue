@@ -36,7 +36,7 @@
               <v-img :src="item.image" height="200"></v-img>
               <v-card-title>{{ item.name }}</v-card-title>
               <v-card-subtitle>{{ item.price }}$</v-card-subtitle>
-              <v-btn @click="basketStore.addItem(item)">Dodaj u košaricu</v-btn>
+              <v-btn @click="addItemToBasket(item)">Dodaj u košaricu</v-btn>
             </v-card>
           </v-col>
         </v-row>
@@ -60,8 +60,13 @@
           </v-icon>
         </v-row>
       </v-container>
+      <!--Prikazivanje poruka kada se proizvod doda u kosaricu-->
+      <v-snackbar v-model="snackbar.show" :timeout="3000" color="success">
+        {{ snackbar.message }}
+      </v-snackbar>
     </v-main>
   </v-app>
+
 </template>
 
 <script setup lang="ts">
@@ -69,8 +74,22 @@ import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 import { useBasketStore } from '@/stores/basket';
 
+// Snackbar za prikazivanje poruka
+const snackbar = ref({
+  show: false,
+  message: '',
+});
+
 // Pinia store za košaricu
 const basketStore = useBasketStore();
+
+const addItemToBasket = (item) => {
+  basketStore.addItem(item); // Dodaje proizvod u košaricu
+  snackbar.value.message = `${item.name} je dodan u košaricu!`; // Postavlja poruku
+  snackbar.value.show = true; // Prikazuje snackbar
+};
+
+
 const items = ref([]);
 const filters = ref({
   category: '', // Kategorija za filtriranje
