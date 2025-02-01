@@ -1,8 +1,8 @@
 <template>
-  <ItemsList />
+  <Home />
 </template>
 
 <script setup>
   //
-import ItemsList from "@/components/ItemsList.vue";
+import Home from "@/components/Home.vue";
 </script>

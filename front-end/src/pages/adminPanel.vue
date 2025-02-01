@@ -1,11 +1,7 @@
-<script setup>
-
-</script>
-
 <template>
-  $END$
+  <adminPanel />
 </template>
 
-<style scoped lang="sass">
-
-</style>
+<script setup>
+import adminPanel from "@/components/AdminPanel.vue";
+</script>

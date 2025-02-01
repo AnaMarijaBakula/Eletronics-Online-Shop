@@ -9,7 +9,7 @@
         <v-icon>mdi-cart</v-icon>
       </v-btn>
     </v-app-bar>
-
+    
     <v-main>
       <v-container>
         <v-row>
@@ -30,7 +30,6 @@
         </v-row>
       </v-container>
     </v-main>
-  </v-app>
 </template>
 
 <script setup lang="ts">
