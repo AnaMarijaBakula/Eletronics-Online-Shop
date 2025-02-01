@@ -2,6 +2,29 @@
   <v-app id="inspire">
     <v-main class="main">
       <v-container>
+        <!-- Filtri -->
+        <v-row>
+          <v-col cols="12" md="4">
+            <v-select
+              v-model="filters.category"
+              :items="uniqueCategories"
+              label="Kategorija"
+              outlined
+            ></v-select>
+          </v-col>
+
+          <!-- Pretraga -->
+          <v-col cols="12" md="4">
+            <v-text-field
+              v-model="filters.search"
+              label="Pretraži proizvode"
+              outlined
+              clearable
+            ></v-text-field>
+          </v-col>
+        </v-row>
+
+        <!-- Proizvodi -->
         <v-row>
           <v-col
             v-for="item in paginatedItems"
@@ -47,53 +70,75 @@ import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 import { useBasketStore } from '@/stores/basket';
 
+// Pinia store za košaricu
 const basketStore = useBasketStore();
 const items = ref([]);
+const filters = ref({
+  category: '', // Kategorija za filtriranje
+  search: '', // Pretraga za filtriranje
+});
 
 // Parametri paginacije
 const currentPage = ref(1);
 const itemsPerPage = 6;
 
-// Dohvaćanje podataka s backend-a
+// Dohvati proizvode
 const fetchItems = async () => {
   try {
     const response = await axios.get('http://localhost:5001/api/items');
-    items.value = response.data.items;
+    items.value = response.data.items; // Sprema proizvode u items
   } catch (error) {
-    console.error('Error fetching data: ', error);
+    console.error('Error fetching items: ', error);
   }
 };
 
-// Paginirani podaci
-const paginatedItems = computed(() => {
-  // Izračun početnog indeksa na temelju trenutne stranice
-  const start = (currentPage.value - 1) * itemsPerPage;
-
-  // Vraća samo one proizvode koji pripadaju trenutnoj stranici
-  return items.value.slice(start, start + itemsPerPage);
+// Dohvati jedinstvene kategorije
+const uniqueCategories = computed(() => {
+  const categories = items.value.map(item => item.category); // Dohvaća sve kategorije
+  return ['Sve kategorije', ...categories.filter((value, index, self) => self.indexOf(value) === index)];
 });
 
-// Ukupan broj stranica
-const totalPages = computed(() => Math.ceil(items.value.length / itemsPerPage));
+// Filtriranje proizvoda prema kategoriji i pretrazi
+const filteredItems = computed(() => {
+  return items.value.filter((item) => {
+    // Provjera kategorije
+    const matchesCategory = filters.value.category && filters.value.category !== 'Sve kategorije'
+      ? item.category === filters.value.category
+      : true; // Ako nije postavljena kategorija, dopuštaju se svi proizvodi
+
+    // Provjera pretrage
+    const matchesSearch = filters.value.search
+      ? item.name.toLowerCase().includes(filters.value.search.toLowerCase()) // Provjerava ime proizvoda
+      : true; // Ako nije unesena pretraga, dopuštaju se svi proizvodi
+
+    return matchesCategory && matchesSearch; // Vraća proizvode koji zadovoljavaju oba uvjeta
+  });
+});
+
+// Paginacija - filtrirani proizvodi
+const paginatedItems = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage; // Izračunava početak stranice
+  return filteredItems.value.slice(start, start + itemsPerPage); // Vraća odgovarajući broj proizvoda za trenutnu stranicu
+});
+
+// Računa ukupan broj stranica
+const totalPages = computed(() => Math.ceil(filteredItems.value.length / itemsPerPage));
+
 
 // Navigacija na sljedeću stranicu
 const nextPage = () => {
-  // Ako trenutna stranica nije posljednja, povećaj broj stranice
-  if (currentPage.value < totalPages.value) currentPage.value++;
+  if (currentPage.value < totalPages.value) currentPage.value++; // Ako nije na zadnjoj stranici, ide na sljedeću
 };
 
 // Navigacija na prethodnu stranicu
 const prevPage = () => {
-  // Ako trenutna stranica nije prva, smanji broj stranice
-  if (currentPage.value > 1) currentPage.value--;
+  if (currentPage.value > 1) currentPage.value--; // Ako nije na prvoj stranici, ide na prethodnu
 };
 
-
+// Dohvati proizvode prilikom učitavanja komponente
 onMounted(() => {
-  fetchItems();
+  fetchItems(); // Pokreće funkciju za dohvat proizvoda
 });
-
-axios.defaults.withCredentials = true;
 </script>
 
 <style scoped lang="sass">
