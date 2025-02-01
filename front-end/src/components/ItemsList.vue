@@ -11,6 +11,7 @@
             :md="4"
           >
             <v-card>
+              <v-card-subtitle>{{ item.category }}</v-card-subtitle>
               <v-img :src="item.image" height="200"></v-img>
               <v-card-title>{{ item.name }}</v-card-title>
               <v-card-subtitle>{{ item.price }}$</v-card-subtitle>
@@ -57,10 +58,6 @@ axios.defaults.withCredentials = true;
 
 <style scoped lang="sass">
 @import '@/styles/settings'
-
-
-.main
-  padding: 100px
 .v-card
   flex-direction: column
   height: 100%
