@@ -5,7 +5,7 @@
       <v-spacer></v-spacer>
       <v-btn  @click="$router.push('/')">Početna</v-btn>
       <v-btn  @click="$router.push('/about')">O nama</v-btn>
-      <v-btn  @click="$router.push('/products')">Proizvodi</v-btn>
+      <v-btn  @click="$router.push('/product s')">Proizvodi</v-btn>
       <v-btn  @click="$router.push('/contact')">Kontakt</v-btn>
 
       <v-btn icon @click="$router.push('/basket')">
