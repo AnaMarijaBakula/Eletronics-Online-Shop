@@ -3,9 +3,9 @@
       <v-app-bar-title>Electronic Shop</v-app-bar-title>
       <v-spacer></v-spacer>
       <v-btn  @click="$router.push('/')">Početna</v-btn>
-      <v-btn  @click="$router.push('/about')">O nama</v-btn>
-      <v-btn  @click="$router.push('/product s')">Proizvodi</v-btn>
-      <v-btn  @click="$router.push('/contact')">Kontakt</v-btn>
+      <v-btn  @click="$router.push('/oNama')">O nama</v-btn>
+      <v-btn  @click="$router.push('/itemList')">Proizvodi</v-btn>
+      <v-btn  @click="$router.push('/vjesti')">Vijesti</v-btn>
 
       <v-btn icon @click="$router.push('/basket')">
         <v-icon>mdi-cart</v-icon>
