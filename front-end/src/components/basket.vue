@@ -91,52 +91,99 @@ const basketStore = useBasketStore();
 </script>
 
 <style scoped>
-.cart-container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f5f5f5;
-}
-
-.cart-card {
-  background-color: white;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-}
 
 .cart-title {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: bold;
-  color: #333;
+  color: #FFFFFF;
 }
 
 .cart-item-card {
-  border: 1px solid #e0e0e0;
+  border: 1px solid #333;
   border-radius: 12px;
   padding: 12px;
-  background-color: #f9f9f9;
+  background-color: #555;
+  margin-bottom: 20px; /* Razmak između kartica */
 }
 
 .cart-item-card h3 {
-  color: #555;
+  color: #FFFFFF;
 }
 
 .quantity {
   font-size: 1rem;
   font-weight: bold;
-  color: #333;
+  color: #FFFFFF;
   margin: 0 8px;
 }
 
 .total-price {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #333;
+  color: #FFFFFF;
+  margin-top: 20px;
 }
 
 .checkout-btn {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
+  background-color: #28A745; /* Zeleni gumb */
+  color: #FFFFFF;
+}
+
+.v-btn.primary {
+  background-color: #FF5733; /* Primarna boja */
+  color: white;
+}
+
+/* Stilizacija inputa za promotivni kod */
+.v-text-field input {
+  font-size: 1rem;
+  color: #333;
+}
+
+.v-text-field label {
+  color: #555;
+}
+
+/* Responzivnost za mobilne uređaje */
+@media (max-width: 600px) {
+  .cart-card {
+    padding: 16px; /* Manji razmak na manjim ekranima */
+  }
+
+  .cart-title {
+    font-size: 1.6rem; /* Manji font na manjim ekranima */
+  }
+
+  .quantity {
+    font-size: 0.9rem; /* Manji font za količinu */
+  }
+
+  .total-price {
+    font-size: 1.2rem; /* Manji font za ukupni iznos */
+  }
+
+  .checkout-btn {
+    font-size: 0.9rem; /* Manji font za gumb */
+    padding: 10px; /* Manji razmak na gumba */
+  }
+
+  .v-btn {
+    font-size: 0.9rem; /* Manji font za gumbe */
+    padding: 8px 12px; /* Manje paddinga na mobilnim uređajima */
+  }
+
+  /* Manji razmaci između gumba */
+  .v-btn.primary {
+    font-size: 0.9rem;
+  }
+
+  .v-text-field input {
+    font-size: 0.9rem; /* Manji font za inpute */
+  }
 }
 </style>
+
+
+
