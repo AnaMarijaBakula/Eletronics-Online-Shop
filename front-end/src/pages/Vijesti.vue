@@ -3,5 +3,5 @@
 </template>
 
 <script setup>
-import Vjesti from "@/components/Vjesti.vue";
+import Vjesti from "@/components/Vijesti.vue";
 </script>

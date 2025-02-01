@@ -26,12 +26,10 @@
         <p>Naši proizvodi lako se integriraju u vaš pametan dom i poslovne procese, omogućujući jednostavno upravljanje i kontrolu.</p>
       </div>
     </section>
-    <AppFooter/>
   </div>
 </template>
 
 <script>
-import AppFooter from "@/components/AppFooter.vue";
 
 export default {
   name: "AboutUs",
