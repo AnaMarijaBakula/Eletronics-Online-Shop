@@ -1,10 +1,8 @@
 const asyncHandler = require('express-async-handler');
 const Promotions = require('../models/promotionsModel');
 
-
-//GET method to get a promotion by code of the promotion
-//adress : /api/promotions/:code
-
+// GET method to get a promotion by code
+// Address: /api/promotions/:code
 const getOnePromotion = asyncHandler(async (req, res) => {
     const promotion = await Promotions.findOne({ code: req.params.code });
     if (!promotion) {
@@ -12,8 +10,6 @@ const getOnePromotion = asyncHandler(async (req, res) => {
         throw new Error('Promotion not found');
     }
     res.status(200).json(promotion);
-
 });
 
-
-module.exports = {  getOnePromotion};
+module.exports = { getOnePromotion };

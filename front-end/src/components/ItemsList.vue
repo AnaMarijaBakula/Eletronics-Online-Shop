@@ -1,15 +1,4 @@
 <template>
-  <v-app id="inspire">
-    <v-app-bar extended>
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
-      <v-app-bar-title>Application</v-app-bar-title>
-      <v-card-subtitle>Ovu stranicu su pravile ana-marija i sara </v-card-subtitle>
-      <v-spacer></v-spacer>
-      <v-btn icon @click="$router.push('/basket')">
-        <v-icon>mdi-cart</v-icon>
-      </v-btn>
-    </v-app-bar>
-
     <v-main>
       <v-container>
         <v-row>
@@ -30,13 +19,16 @@
         </v-row>
       </v-container>
     </v-main>
-  </v-app>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useBasketStore } from '@/stores/basket';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+const isAdmin = route.path.includes('/adminpanel');
 
 //Pinia store i ispis dodanih itema u konzoli
 const basketStore = useBasketStore();
