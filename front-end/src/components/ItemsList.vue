@@ -12,6 +12,15 @@
               outlined
             ></v-select>
           </v-col>
+          <!-- Pretraga -->
+          <v-col cols="12" md="4">
+            <v-text-field
+              v-model="filters.search"
+              label="Pretraži proizvode"
+              outlined
+              clearable
+            ></v-text-field>
+          </v-col>
         </v-row>
 
         <!-- Proizvodi -->
@@ -64,7 +73,8 @@ import { useBasketStore } from '@/stores/basket';
 const basketStore = useBasketStore();
 const items = ref([]);
 const filters = ref({
-  category: '',
+  category: '', // Kategorija za filtriranje
+  search: '', // Pretraga za filtriranje
 });
 
 // Parametri paginacije
@@ -75,7 +85,7 @@ const itemsPerPage = 6;
 const fetchItems = async () => {
   try {
     const response = await axios.get('http://localhost:5001/api/items');
-    items.value = response.data.items;
+    items.value = response.data.items; // Sprema proizvode u items
   } catch (error) {
     console.error('Error fetching items: ', error);
   }
@@ -83,42 +93,50 @@ const fetchItems = async () => {
 
 // Dohvati jedinstvene kategorije
 const uniqueCategories = computed(() => {
-  const categories = items.value.map(item => item.category);
+  const categories = items.value.map(item => item.category); // Dohvaća sve kategorije
   return ['Sve kategorije', ...categories.filter((value, index, self) => self.indexOf(value) === index)];
 });
 
-// Filtriranje proizvoda prema kategoriji
+// Filtriranje proizvoda prema kategoriji i pretrazi
 const filteredItems = computed(() => {
   return items.value.filter((item) => {
+    // Provjera kategorije
     const matchesCategory = filters.value.category && filters.value.category !== 'Sve kategorije'
       ? item.category === filters.value.category
-      : true;
-    return matchesCategory;
+      : true; // Ako nije postavljena kategorija, dopuštaju se svi proizvodi
+
+    // Provjera pretrage
+    const matchesSearch = filters.value.search
+      ? item.name.toLowerCase().includes(filters.value.search.toLowerCase()) // Provjerava ime proizvoda
+      : true; // Ako nije unesena pretraga, dopuštaju se svi proizvodi
+
+    return matchesCategory && matchesSearch; // Vraća proizvode koji zadovoljavaju oba uvjeta
   });
 });
 
 // Paginacija - filtrirani proizvodi
 const paginatedItems = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage;
-  return filteredItems.value.slice(start, start + itemsPerPage);
+  const start = (currentPage.value - 1) * itemsPerPage; // Izračunava početak stranice
+  return filteredItems.value.slice(start, start + itemsPerPage); // Vraća odgovarajući broj proizvoda za trenutnu stranicu
 });
 
-// Ukupan broj stranica
+// Računa ukupan broj stranica
 const totalPages = computed(() => Math.ceil(filteredItems.value.length / itemsPerPage));
+
 
 // Navigacija na sljedeću stranicu
 const nextPage = () => {
-  if (currentPage.value < totalPages.value) currentPage.value++;
+  if (currentPage.value < totalPages.value) currentPage.value++; // Ako nije na zadnjoj stranici, ide na sljedeću
 };
 
 // Navigacija na prethodnu stranicu
 const prevPage = () => {
-  if (currentPage.value > 1) currentPage.value--;
+  if (currentPage.value > 1) currentPage.value--; // Ako nije na prvoj stranici, ide na prethodnu
 };
 
 // Dohvati proizvode prilikom učitavanja komponente
 onMounted(() => {
-  fetchItems();
+  fetchItems(); // Pokreće funkciju za dohvat proizvoda
 });
 </script>
 

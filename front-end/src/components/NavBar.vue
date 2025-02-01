@@ -1,6 +1,5 @@
 <template>
     <v-app-bar extended>
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
       <v-app-bar-title>Electronic Shop</v-app-bar-title>
       <v-spacer></v-spacer>
       <v-btn  @click="$router.push('/')">Početna</v-btn>
@@ -20,5 +19,17 @@
 </script>
 
 <style scoped lang="sass">
-/* Vaši stilovi ovdje */
+@import '@/styles/settings'
+
+// Stilovi za naslov "Electronic Shop"
+.title
+  font-weight: bold
+
+// Stilovi za gumbe
+.v-btn
+  color: $text
+
+// Hover efekt za gumbe
+.v-btn:hover
+  background-color: $secondary
 </style>

@@ -23,19 +23,21 @@
                 </v-col>
                 <v-col cols="5">
                   <h3 class="text-h6 font-weight-bold mb-2">{{ item.name }}</h3>
-                  <p class="text-grey-600">{{ item.price }} kn</p>
+                  <p class="text-grey-600">{{ item.price }} $</p>
                 </v-col>
                 <v-col cols="3" class="text-center">
-                  <v-btn icon small color="primary" @click="basketStore.decreaseQuantity(item._id)">
-                    <v-icon>mdi-minus-circle</v-icon>
-                  </v-btn>
-                  <span class="quantity">{{ item.quantity }}</span>
-                  <v-btn icon small color="primary" @click="basketStore.increaseQuantity(item._id)">
-                    <v-icon>mdi-plus-circle</v-icon>
-                  </v-btn>
-                  <v-btn icon small color="red" @click="basketStore.removeItem(item._id)">
-                    <v-icon>mdi-delete</v-icon>
-                  </v-btn>
+                  <div class="quantity-controls">
+                    <v-btn icon small class="quantity-btn minus" @click="basketStore.decreaseQuantity(item._id)">
+                      <v-icon>mdi-minus-circle</v-icon>
+                    </v-btn>
+                    <span class="quantity">{{ item.quantity }}</span>
+                    <v-btn icon small class="quantity-btn plus" @click="basketStore.increaseQuantity(item._id)">
+                      <v-icon>mdi-plus-circle</v-icon>
+                    </v-btn>
+                    <v-btn icon small class="delete-btn" @click="basketStore.removeItem(item._id)">
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                  </div>
                 </v-col>
               </v-row>
             </v-card>
@@ -85,105 +87,48 @@
 </template>
 
 <script setup >
-import { useBasketStore } from '@/stores/basket';
+import { useBasketStore } from '@/stores/basket'
 
-const basketStore = useBasketStore();
+const basketStore = useBasketStore()
 </script>
 
-<style scoped>
+<style scoped lang="sass">
+@import '@/styles/settings'
 
-.cart-title {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #FFFFFF;
-}
+.cart-item-card
+  padding: 12px
+  background-color: $style-color
+  margin-bottom: 20px
 
-.cart-item-card {
-  border: 1px solid #333;
-  border-radius: 12px;
-  padding: 12px;
-  background-color: #555;
-  margin-bottom: 20px; /* Razmak između kartica */
-}
 
-.cart-item-card h3 {
-  color: #FFFFFF;
-}
+.quantity-controls
+  display: flex
+  align-items: center
+  gap: 2px
 
-.quantity {
-  font-size: 1rem;
-  font-weight: bold;
-  color: #FFFFFF;
-  margin: 0 8px;
-}
+.quantity-btn
+  background-color: $text-color
+  color: $subtle-text
+  border-radius: 4px
 
-.total-price {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #FFFFFF;
-  margin-top: 20px;
-}
+.quantity-btn.plus:hover
+  background-color: $secondary
 
-.checkout-btn {
-  font-size: 1rem;
-  font-weight: bold;
-  background-color: #28A745; /* Zeleni gumb */
-  color: #FFFFFF;
-}
+.quantity-btn.minus:hover
+  background-color: $secondary
 
-.v-btn.primary {
-  background-color: #FF5733; /* Primarna boja */
-  color: white;
-}
+.delete-btn
+  background-color: $primary
+  color: white
+  border-radius: 4px
 
-/* Stilizacija inputa za promotivni kod */
-.v-text-field input {
-  font-size: 1rem;
-  color: #333;
-}
+.checkout-btn
+  font-size: 1rem
+  font-weight: bold
+  background-color: $secondary
+  color: $text
 
-.v-text-field label {
-  color: #555;
-}
-
-/* Responzivnost za mobilne uređaje */
-@media (max-width: 600px) {
-  .cart-card {
-    padding: 16px; /* Manji razmak na manjim ekranima */
-  }
-
-  .cart-title {
-    font-size: 1.6rem; /* Manji font na manjim ekranima */
-  }
-
-  .quantity {
-    font-size: 0.9rem; /* Manji font za količinu */
-  }
-
-  .total-price {
-    font-size: 1.2rem; /* Manji font za ukupni iznos */
-  }
-
-  .checkout-btn {
-    font-size: 0.9rem; /* Manji font za gumb */
-    padding: 10px; /* Manji razmak na gumba */
-  }
-
-  .v-btn {
-    font-size: 0.9rem; /* Manji font za gumbe */
-    padding: 8px 12px; /* Manje paddinga na mobilnim uređajima */
-  }
-
-  /* Manji razmaci između gumba */
-  .v-btn.primary {
-    font-size: 0.9rem;
-  }
-
-  .v-text-field input {
-    font-size: 0.9rem; /* Manji font za inpute */
-  }
-}
+.v-btn.primary
+  background-color: $primary
+  color: white
 </style>
-
-
-
