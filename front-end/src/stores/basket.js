@@ -6,6 +6,7 @@ import { ref, computed } from 'vue';
 export const useBasketStore = defineStore('BasketStore', () => {
   const items = useLocalStorage('BasketStore:items', ref([]));
 
+
   // Getteri- služe sa izračunavanje vrijednosti
   const totalItems = computed(() => items.value.reduce((total, item) => total + item.quantity, 0));
   const totalPrice = computed(() => items.value.reduce((total, item) => total + item.price * item.quantity, 0));

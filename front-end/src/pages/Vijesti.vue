@@ -1,7 +1,7 @@
 <template>
-  <Vjesti/>
+  <Vijesti/>
 </template>
 
 <script setup>
-import Vjesti from "@/components/Vijesti.vue";
+import Vijesti from "@/components/Vijesti.vue";
 </script>
