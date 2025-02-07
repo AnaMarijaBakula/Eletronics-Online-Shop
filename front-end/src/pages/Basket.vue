@@ -3,5 +3,5 @@
 </template>
 
 <script setup>
-import basket from "@/components/basket.vue";
+import basket from "@/components/Basket.vue";
 </script>

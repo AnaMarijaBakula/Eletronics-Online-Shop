@@ -31,10 +31,6 @@
 
 <script>
 
-export default {
-  name: "AboutUs",
-  components: {AppFooter},
-};
 </script>
 
 <style scoped lang="scss">

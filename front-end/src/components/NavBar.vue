@@ -3,10 +3,10 @@
       <v-app-bar-title>Electronic Shop</v-app-bar-title>
       <v-spacer></v-spacer>
       <v-btn  @click="$router.push('/')">Početna</v-btn>
-      <v-btn  @click="$router.push('/oNama')">O nama</v-btn>
+      <v-btn  @click="$router.push('/aboutus')">O nama</v-btn>
       <v-btn  @click="$router.push('/')">Proizvodi</v-btn>
-      <v-btn  @click="$router.push('/vijesti')">Vijesti</v-btn>
-      
+      <v-btn  @click="$router.push('/news')">Vijesti</v-btn>
+
       <!-- Hamburger meni za mobilne uređaje -->
       <v-menu v-if="isMobile" offset-y>
         <template v-slot:activator="{ props }">
@@ -16,9 +16,9 @@
         </template>
         <v-list>
           <v-list-item @click="$router.push('/')">Početna</v-list-item>
-          <v-list-item @click="$router.push('/oNama')">O nama</v-list-item>
+          <v-list-item @click="$router.push('/aboutus')">O nama</v-list-item>
           <v-list-item @click="$router.push('/')">Proizvodi</v-list-item>
-          <v-list-item @click="$router.push('/vijesti')">Vijesti</v-list-item>
+          <v-list-item @click="$router.push('/news')">Vijesti</v-list-item>
         </v-list>
       </v-menu>
 
