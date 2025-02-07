@@ -36,10 +36,22 @@
               <v-img :src="item.image" height="200"></v-img>
               <v-card-title>{{ item.name }}</v-card-title>
               <v-card-subtitle>{{ item.price }}$</v-card-subtitle>
-              <v-btn @click="addItemToBasket(item)">Dodaj u košaricu</v-btn>
+              <v-btn v-if="!isAdminPanel" @click="addItemToBasket(item)">Dodaj u košaricu</v-btn>
+
+              <v-btn v-if="isAdminPanel"  @click="openEditDialog(item)">
+                Uredi
+              </v-btn>
+
+              <v-btn v-if="isAdminPanel" color="red" @click="deleteItem(item._id)">
+                Izbriši
+              </v-btn>
             </v-card>
           </v-col>
         </v-row>
+        <!-- Modalni prozor za uređivanje proizvoda -->
+        <v-dialog v-model="dialog" max-width="500px">
+          <UpdateItem v-if="selectedItem" :item="selectedItem" @close="dialog = false" />
+        </v-dialog>
 
         <!-- Navigacija za paginaciju sa strelicama u istom redu -->
         <v-row justify="center" class="pagination-row">
@@ -73,6 +85,21 @@
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 import { useBasketStore } from '@/stores/basket';
+import { useRoute, useRouter } from 'vue-router';
+
+const dialog = ref(false);  // dialog za uređivanje proizvoda
+const selectedItem = ref(null); // odabrani proizvod za uređivanje
+const openEditDialog = (item) => {
+  selectedItem.value = { ...item }; // Kopija podataka kako bismo izbjegli direktne promjene
+  dialog.value = true;
+};
+
+//Za provjeravanje rute adminpanel
+const route = useRoute();
+const router = useRouter();
+
+// Provjera je li trenutna ruta /adminpanel
+const isAdminPanel = computed(() => route.path === '/adminpanel');
 
 // Snackbar za prikazivanje poruka
 const snackbar = ref({
@@ -83,6 +110,7 @@ const snackbar = ref({
 // Pinia store za košaricu
 const basketStore = useBasketStore();
 
+//Dodavanje proizvoda u kosaricu-Pinia store
 const addItemToBasket = (item) => {
   basketStore.addItem(item); // Dodaje proizvod u košaricu
   snackbar.value.message = `${item.name} je dodan u košaricu!`; // Postavlja poruku
@@ -107,6 +135,17 @@ const fetchItems = async () => {
     items.value = response.data.items; // Sprema proizvode u items
   } catch (error) {
     console.error('Error fetching items: ', error);
+  }
+};
+
+//Brisanje proizvoda za admin panel
+const deleteItem = async (_id) => {
+  try {
+    await axios.delete(`http://localhost:5001/api/admin/items/${_id}`);
+    items.value = items.value.filter(item => item._id !== _id);
+    console.log(`Proizvod  s ID-om ${_id} je izbrisan.`);
+  } catch (error) {
+    console.error('Greška pri brisanju proizvoda:', error);
   }
 };
 

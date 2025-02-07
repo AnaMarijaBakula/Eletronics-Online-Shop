@@ -21,8 +21,6 @@ const createItem = asyncHandler(async (req, res) => {
     res.status(201).json(item);
 });
 
-
-
 //DELETE method to delete an item by id
 //adress : /api/items/:id
 const deleteItem = asyncHandler(async (req, res) => {
@@ -35,8 +33,9 @@ const deleteItem = asyncHandler(async (req, res) => {
 });
 
 //PUT method to update an item by id (one field or more)
-//adress : /api/items/:id
+//adress : /api/admin/items/:id
 const updateItem = asyncHandler(async (req, res) => {
+    console.log(req.body)
     const item = await Items.findById(req.params.id);
     if (!item) {
         res.status(404);
@@ -51,6 +50,19 @@ const updateItem = asyncHandler(async (req, res) => {
 const getItems = asyncHandler(async (req, res) => {
     const items = await Items.find();
     res.status(200).json({ items, message: 'Items route is working' });
+});
+
+// GET method to get a single item by ID
+// address : /api/items/:id
+const getOneItem = asyncHandler(async (req, res) => {
+    const item = await Items.findById(req.params.id);
+
+    if (!item) {
+        res.status(404);
+        throw new Error("Item not found");
+    }
+
+    res.status(200).json(item);
 });
 
 //POST method to add a promotion
@@ -108,6 +120,7 @@ module.exports = {
     deleteItem,
     updateItem,
     getItems,
+    getOneItem,
     createPromotion ,
     deletePromotion ,
     updatePromotion,
