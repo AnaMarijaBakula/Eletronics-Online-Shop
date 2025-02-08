@@ -1,7 +1,7 @@
 <template>
-  <Vijesti/>
+  <News/>
 </template>
 
 <script setup>
-import Vijesti from "@/components/News.vue";
+import News from "@/components/News.vue";
 </script>

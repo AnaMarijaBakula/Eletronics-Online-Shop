@@ -1,7 +1,7 @@
 <template>
-  <ONama />
+  <AboutUs />
 </template>
 
 <script setup>
-import ONama from "@/components/AboutUs.vue";
+import AboutUs from "@/components/AboutUs.vue";
 </script>

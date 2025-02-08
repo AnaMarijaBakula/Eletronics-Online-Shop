@@ -22,6 +22,7 @@
         </v-list>
       </v-menu>
 
+      <!-- Gumb za košaricu -->
       <v-btn icon @click="$router.push('/basket')">
         <v-icon>mdi-cart</v-icon>
       </v-btn>
@@ -33,6 +34,7 @@ import { ref, onMounted, onUnmounted } from 'vue';
 
 const isMobile = ref(window.innerWidth < 768);
 
+// Funkcija za ažuriranje veličine ekrana
 const updateScreenSize = () => {
   isMobile.value = window.innerWidth < 768;
 };

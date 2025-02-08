@@ -2,9 +2,9 @@
   <v-app id="inspire">
     <v-main class="main">
       <v-container>
-        <!-- Filtri -->
         <v-row>
           <v-col cols="12" md="4">
+            <!-- Filtri -->
             <v-select
               v-model="filters.category"
               :items="uniqueCategories"
@@ -72,6 +72,7 @@
           </v-icon>
         </v-row>
       </v-container>
+
       <!--Prikazivanje poruka kada se proizvod doda u kosaricu-->
       <v-snackbar v-model="snackbar.show" :timeout="3000" color="success">
         {{ snackbar.message }}
@@ -96,7 +97,6 @@ const openEditDialog = (item) => {
 
 //Za provjeravanje rute adminpanel
 const route = useRoute();
-const router = useRouter();
 
 // Provjera je li trenutna ruta /adminpanel
 const isAdminPanel = computed(() => route.path === '/adminpanel');

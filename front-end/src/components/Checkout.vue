@@ -79,6 +79,7 @@ const user = ref({
   address: '',
   email: ''
 });
+
 //placeOrder se prikazuje kada nisu unesni svi podaci
 const placeOrder = async () => {
   if (!user.value.name || !user.value.address || !user.value.email) {
@@ -114,5 +115,5 @@ const placeOrder = async () => {
 };
 </script>
 <style scoped>
-/* Dodatni stilovi po želji */
+
 </style>

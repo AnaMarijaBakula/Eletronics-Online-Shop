@@ -1,7 +1,8 @@
 const asyncHandler = require('express-async-handler');
 const Order = require('../models/orderModel');
 
-
+//CREATE method to create an order
+//adress : /api/orders
 const createOrder = asyncHandler(async (req, res) => {
     const { name, email, address, orderItems, totalAmount } = req.body;
 

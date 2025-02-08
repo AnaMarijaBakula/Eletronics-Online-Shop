@@ -1,7 +1,7 @@
 <template>
-  <basket />
+  <Basket />
 </template>
 
 <script setup>
-import basket from "@/components/Basket.vue";
+import Basket from "@/components/Basket.vue";
 </script>

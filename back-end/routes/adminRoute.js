@@ -6,7 +6,6 @@ const adminController = require("../controllers/adminController");
 router.post("/items/item", adminController.createItem);
 router.delete("/items/:id", adminController.deleteItem);
 router.put("/items/:id", adminController.updateItem);
-router.get("/items", adminController.getItems)
 router.get("/items/:id", adminController.getOneItem)
 
 

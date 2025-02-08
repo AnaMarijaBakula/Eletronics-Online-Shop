@@ -57,7 +57,7 @@
             <v-btn type="submit" color="primary">Dodaj Proizvod</v-btn>
           </v-form>
         </div>
-
+        <!-- Dodavanje promocija -->
         <div v-if="currentView === 'addPromotion'">
           <h2>Dodavanje Promocija</h2>
           <v-form @submit.prevent="addNewPromotion">
@@ -76,7 +76,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import ItemsList from '@/components/ItemsList.vue';
-import axios from "axios";  // Uvoz komponente ItemsList
+import axios from "axios";
 
 // Stanja za proizvode i promocije
 const product = ref({ name: '', price: '', category: '', image: '' });
@@ -94,7 +94,6 @@ const getPromotions = async () => {
     console.error('Greška pri dohvaćanju promocija:', error);
   }
 };
-
 
 // Funkcija za brisanje promocije
 const deletePromotion = async (_id) => {
@@ -121,6 +120,7 @@ const addNewPromotion = async () => {
   }
 };
 
+// Funkcija za dodavanje proizvoda u bazu
 const addProduct = async () => {
   try {
     const response = await axios.post('http://localhost:5001/api/admin/item', product.value);
@@ -131,12 +131,13 @@ const addProduct = async () => {
   }
 };
 
-const currentView = ref('products');  // Stanje za kontrolu prikaza sadržaja
+// Stanje za kontrolu prikaza sadržaja,prvi prikaz na tojr uti bit ce products
+const currentView = ref('products');
 
+// Postavljanje prikaza
 const setView = (view) => {
   currentView.value = view;
 };
-
 
 // Dohvati promocije kada se komponenta učita
 onMounted(() => {

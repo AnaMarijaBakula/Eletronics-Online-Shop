@@ -2,11 +2,8 @@ const express = require('express')
 const dotenv = require("dotenv").config();
 const cors = require('cors');
 
-const MongoStore = require('connect-mongo');
-
 const app = express()
 const port = process.env.PORT || 5001;
-
 
 app.use(cors({
     origin: 'http://localhost:3001',

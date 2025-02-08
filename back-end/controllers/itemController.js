@@ -9,6 +9,4 @@ const getItems = asyncHandler(async (req, res) => {
     res.status(200).json({ items, message: 'Items route is working' });
 });
 
-
-
 module.exports = { getItems};

@@ -8,7 +8,6 @@
   </v-container>
 </template>
 
-
 <script setup>
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
@@ -24,14 +23,14 @@ onMounted(() => {
 
 <style scoped>
 .text{
-  color: #333; /* Tamno siva boja teksta */
+  color: #333;
 
 }
 
 .success-card {
   max-width: 400px;
   border-radius: 12px;
-  background-color: #e8f5e9; /* Svijetlo zelena pozadina */
+  background-color: #e8f5e9;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 </style>
