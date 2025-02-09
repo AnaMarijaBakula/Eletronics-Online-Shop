@@ -9,7 +9,6 @@
               v-model="filters.category"
               :items="uniqueCategories"
               label="Kategorija"
-              outlined
             ></v-select>
           </v-col>
           <!-- Pretraga -->
@@ -17,8 +16,6 @@
             <v-text-field
               v-model="filters.search"
               label="Pretraži proizvode"
-              outlined
-              clearable
             ></v-text-field>
           </v-col>
         </v-row>
@@ -45,6 +42,7 @@
               <v-btn v-if="isAdminPanel" color="red" @click="deleteItem(item._id)">
                 Izbriši
               </v-btn>
+
             </v-card>
           </v-col>
         </v-row>
@@ -92,7 +90,7 @@ const dialog = ref(false);  // dialog za uređivanje proizvoda
 const selectedItem = ref(null); // odabrani proizvod za uređivanje
 const openEditDialog = (item) => {
   selectedItem.value = { ...item }; // Kopija podataka kako bismo izbjegli direktne promjene
-  dialog.value = true;
+  dialog.value = true;// Prikazuje se prozor za uređivanje
 };
 
 //Za provjeravanje rute adminpanel
@@ -126,7 +124,7 @@ const filters = ref({
 
 // Parametri paginacije
 const currentPage = ref(1);
-const itemsPerPage = 6;
+const itemsPerPage = 6; //broj proizvoda koji se prikazuju na stranici
 
 // Dohvati proizvode
 const fetchItems = async () => {
@@ -149,7 +147,7 @@ const deleteItem = async (_id) => {
   }
 };
 
-// Dohvati jedinstvene kategorije
+// Dohvačanje svih kategorija
 const uniqueCategories = computed(() => {
   const categories = items.value.map(item => item.category); // Dohvaća sve kategorije
   return ['Sve kategorije', ...categories.filter((value, index, self) => self.indexOf(value) === index)];

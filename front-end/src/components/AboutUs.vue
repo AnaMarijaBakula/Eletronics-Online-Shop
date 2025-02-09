@@ -1,9 +1,9 @@
 <template>
   <div class="about-us-container">
-    <header class="about-us-header">
+    <div class="about-us-header">
       <h1>Electronic shop</h1>
       <p>Tehnologija koja pokreće budućnost</p>
-    </header>
+    </div>
 
     <p class="main-text">
       Dobrodošli u naš online shop, gdje tehnologija susreće praktičnost.<br>
@@ -29,22 +29,18 @@
   </div>
 </template>
 
-<script>
-
-</script>
+<script></script>
 
 <style scoped lang="scss">
 @import '@/styles/settings.scss';
 
 .about-us-container {
-  background-color: $quantity-color;
-  color: #FFFFFF; // Bijeli tekst za cijelu stranicu
+  color: $text-color;
 
   .about-us-header {
     text-align: center;
     padding: 2rem;
-    background-color: $quantity-color;
-    color: #FFFFFF;
+    color: $text-color;
 
     h1 {
       font-size: 2.5rem;
@@ -60,43 +56,58 @@
     text-align: center;
     font-size: 1.2rem;
     line-height: 1.5;
-    margin: 2rem 0;
-    color: #FFFFFF; // Bijeli tekst
+    color: $text-color;
   }
 
   .about-us-values {
     display: flex;
-    justify-content: space-around;
+    flex-wrap: wrap; /* Omogućuje karticama da se prilagode širini ekrana */
+    justify-content: space-between; /* Jednako raspoređivanje kartica */
+    gap: 1.5rem; /* Razmak između kartica */
     padding: 2rem;
-    background-color: $quantity-color;
+  }
 
-    .value-card {
-      background-color: $card-background; // Bijela pozadina kartica
-      border: 1px solid $card-border; // Svijetlo siva granica
-      padding: 1rem;
-      border-radius: 8px;
-      text-align: center;
-      width: 30%;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  .value-card {
+    background-color: $card-background;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    width: 30%; /* Svaka kartica zauzima 30% širine na velikim ekranima */
 
-      h3 {
-        font-size: 1.5rem;
-        color: $quantity-color; // Bijeli tekst u karticama
-      }
+    h3 {
+      font-size: 1.5rem;
+      color: $background;
+      margin-bottom: 1rem;
+    }
 
-      p {
-        font-size: 1rem;
-        color: $quantity-color; // Sivi tekst unutar kartica
-      }
+    p {
+      font-size: 1rem;
+      color: $quantity-color;
     }
   }
 
-  .about-us-footer {
-    text-align: center;
-    padding: 1.5rem;
-    background-color: $quantity-color;
-    color: #FFFFFF;
-    font-size: 1rem;
+  /* Medijski upiti za mobilne uređaje */
+  @media (max-width: 768px) {
+    .about-us-header h1 {
+      font-size: 2rem;
+    }
+
+    .about-us-header p {
+      font-size: 1rem;
+    }
+
+    .main-text {
+      font-size: 1rem;
+    }
+
+    .about-us-values {
+      padding: 1rem;
+      justify-content: center; /* Centriranje kartica na manjim ekranima */
+    }
+
+    .value-card {
+      width: 100%; /* Kartice zauzimaju cijeli prostor na manjim ekranima */
+    }
   }
 }
 </style>

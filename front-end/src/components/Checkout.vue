@@ -80,7 +80,7 @@ const user = ref({
   email: ''
 });
 
-//placeOrder se prikazuje kada nisu unesni svi podaci
+//placeOrder se prikazuje kada nisu unesni svi podaci(alert)
 const placeOrder = async () => {
   if (!user.value.name || !user.value.address || !user.value.email) {
     alert("Molimo unesite sve podatke.");

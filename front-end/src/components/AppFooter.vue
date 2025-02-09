@@ -4,18 +4,14 @@
   </footer>
 </template>
 
-<script>
-
-</script>
+<script></script>
 
 <style scoped lang="scss">
 @import '@/styles/settings.scss';
-
 .about-us-footer {
   text-align: center;
   padding: 1.5rem;
-  background-color: $quantity-color;
-  color: #FFFFFF;
+  color: $text-color;
   font-size: 1rem;
 }
 </style>

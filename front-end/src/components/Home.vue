@@ -3,11 +3,7 @@
 </template>
 
 <script setup lang="ts">
-
 import ItemsList from '@/components/ItemsList.vue';
-
 </script>
 
-<style scoped lang="sass">
-
-</style>
+<style scoped lang="sass"></style>

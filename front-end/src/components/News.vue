@@ -40,7 +40,7 @@ onMounted(() => {
       <div v-for="(article, index) in articles" :key="index" class="news-card">
         <h3>{{ article.title }}</h3>
         <p>{{ article.description }}</p>
-        <a :href="article.url" target="_blank">Pročitaj više</a>
+        <a :href="article.url" target="_blank" class="read-more">Pročitaj više</a>
       </div>
     </div>
     <div v-else>
@@ -50,18 +50,17 @@ onMounted(() => {
 </template>
 
 <style scoped lang="sass">
-@import '@/styles/settings.scss' // Povezivanje s vašim globalnim SCSS datotekama za varijable
+@import '@/styles/settings.scss'
 
 .news-container
   padding: 2rem
-  background-color: $quantity-color
   color: $text
   text-align: center
 
   h2
     font-size: 2rem
     margin-bottom: 1rem
-    color: $text
+    color: $secondary
 
 .news-list
   display: flex
@@ -69,10 +68,8 @@ onMounted(() => {
   gap: 1.5rem
 
 .news-card
-  background-color: $subtle-text-color
+  background-color: $card-border
   padding: 1rem
-  border-radius: 8px
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1)
   transition: transform 0.3s
 
   &:hover
@@ -80,17 +77,21 @@ onMounted(() => {
 
   h3
     font-size: 1.5rem
+    font-weight: bold
     margin-bottom: 0.5rem
-    color: $quantity-color
+    color: $background
 
   p
     font-size: 1rem
-    color: $text-color
+    color: $quantity
     margin-bottom: 1rem
 
-  a
-    text-decoration: none
-    color: $text-color
-    font-weight: bold
+.read-more
+  text-decoration: none
+  color: $background
+  font-weight: bold
+  transition: color 0.3s ease
 
+  &:hover
+    color: $secondary
 </style>
